@@ -27,6 +27,21 @@ function updateDisplay() {
   let list = document.querySelector(".list-group");
   list.innerHTML = "";
 
+  document.querySelectorAll("[data-filter]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      //recupere le filtre
+      currentFilter = btn.dataset.filter;
+
+      // retirer "active de tout les btn"
+      document
+        .querySelectorAll("[data-filter]")
+        .forEach((b) => b.classList.remove("active"));
+
+      btn.classList.add("active");
+
+      updateDisplay();
+    });
+  });
   let filteredTodos = todos.filter((tâche) => {
     if (currentFilter === "all") return true;
     if (currentFilter === "done") return tâche.done;
@@ -71,16 +86,22 @@ function updateDisplay() {
     iconbtn.className = "bi-trash";
 
     btnDelete.appendChild(iconbtn);
-    card.appendChild(btnDelete);
 
     btnDelete.addEventListener("click", () => {
       todos = todos.filter((t) => t.id !== tâche.id);
       updateDisplay();
     });
 
+// Note a moi même faire attention a l'orde de donnée a qui car sinon pas dans le bonne sens 
+
+
+
     formcheck.appendChild(label);
     formcheck.appendChild(check);
     card.appendChild(formcheck);
+    card.appendChild(btnDelete);
     list.appendChild(card);
   });
 }
+//   faire le datafilter
+// et le fetch
